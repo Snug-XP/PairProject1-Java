@@ -12,89 +12,78 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class wordCount {
-	
+
 	/*
-	 * ½«Í³¼Æ½á¹ûÊä³öµ½ÎÄ¼ş"result.txt"
-	 * ÊäÈë£ºÍ³¼ÆµÄÎÄ¼ş×Ö·û×ÜÊı¡¢Í³¼Æµ¥´ÊºÍ´ÊÆµµÄMap¡¢Í³¼ÆµÄÎÄ¼şÓĞĞ§ĞĞÊı
-	 * Êä³ö£ºÎŞ
+	 * å°†ç»Ÿè®¡ç»“æœè¾“å‡ºåˆ°æ–‡ä»¶"result.txt" è¾“å…¥ï¼šç»Ÿè®¡çš„æ–‡ä»¶å­—ç¬¦æ€»æ•°ã€ç»Ÿè®¡å•è¯å’Œè¯é¢‘çš„Mapã€ç»Ÿè®¡çš„æ–‡ä»¶æœ‰æ•ˆè¡Œæ•° è¾“å‡ºï¼šæ— 
 	 */
-	public static void writeToFile(int countChar, Map<String, String>wordsMap , int countLinnes) {
+	public static void writeToFile(int countChar, Map<String, String> wordsMap, int countLinnes) {
 		try {
-			int countWords = Integer.parseInt( wordsMap.get("count_words") );
-			
-			File output_file=new File("result.txt");
+			int countWords = Integer.parseInt(wordsMap.get("count_words"));
+
+			File output_file = new File("result.txt");
 			OutputStreamWriter writer;
 			writer = new OutputStreamWriter(new FileOutputStream(output_file));
 			BufferedWriter bufferedWriter = new BufferedWriter(writer);
-			bufferedWriter.write("characters: "+countChar+"\r\n");
-			bufferedWriter.write("words: "+countWords+"\r\n");
-			bufferedWriter.write("lines: "+countLinnes+"\r\n");
-            bufferedWriter.flush();
-            
-            System.out.println("characters: "+countChar);
-            System.out.println("words: "+countWords);
-            System.out.println("lines: "+countLinnes);
-            
-            if( countWords <= 0 )
-            {
-            	writer.close();
-            	return;
-            }
-            
-            int n = 10;
-            while( countWords > 0 && n-- > 0)
-            {
-            	String temp = "";
-            	int maxNum=-1;
-            	Iterator<Map.Entry<String, String>> iterator = wordsMap.entrySet().iterator();
-            	while (iterator.hasNext()) {
-            		Map.Entry<String, String> entry = iterator.next();
-            		if(  Integer.parseInt( entry.getValue()) >= maxNum && !entry.getKey().equals("count_words") )
-            		{
-            			if( Integer.parseInt( entry.getValue()) == maxNum && entry.getKey().compareTo(temp) > 0 )
-            			{//ÏàÍ¬ÆµÂÊµÄµ¥´ÊÑ¡×ÖµäĞò¿¿Ç°µÄµ¥´Ê
-            				continue;
-            			}
-            			temp = entry.getKey();
-            			maxNum = Integer.parseInt( entry.getValue());
-            		}
-            	}
-            	bufferedWriter.write("<"+temp+">: "+maxNum+"\r\n");
-            	bufferedWriter.flush();
-                System.out.println("<"+temp+">: "+maxNum);
+			bufferedWriter.write("characters: " + countChar + "\r\n");
+			bufferedWriter.write("words: " + countWords + "\r\n");
+			bufferedWriter.write("lines: " + countLinnes + "\r\n");
+			bufferedWriter.flush();
 
-            	wordsMap.remove(temp);
-            	countWords = countWords-maxNum;
-            }
-            
-            writer.close();
+			System.out.println("characters: " + countChar);
+			System.out.println("words: " + countWords);
+			System.out.println("lines: " + countLinnes);
+
+			if (countWords <= 0) {
+				writer.close();
+				return;
+			}
+
+			int n = 10;
+			while (countWords > 0 && n-- > 0) {
+				String temp = "";
+				int maxNum = -1;
+				Iterator<Map.Entry<String, String>> iterator = wordsMap.entrySet().iterator();
+				while (iterator.hasNext()) {
+					Map.Entry<String, String> entry = iterator.next();
+					if (Integer.parseInt(entry.getValue()) >= maxNum && !entry.getKey().equals("count_words")) {
+						if (Integer.parseInt(entry.getValue()) == maxNum && entry.getKey().compareTo(temp) > 0) {// ç›¸åŒé¢‘ç‡çš„å•è¯é€‰å­—å…¸åºé å‰çš„å•è¯
+							continue;
+						}
+						temp = entry.getKey();
+						maxNum = Integer.parseInt(entry.getValue());
+					}
+				}
+				bufferedWriter.write("<" + temp + ">: " + maxNum + "\r\n");
+				bufferedWriter.flush();
+				System.out.println("<" + temp + ">: " + maxNum);
+
+				wordsMap.remove(temp);
+				countWords = countWords - maxNum;
+			}
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
-	 * Í³¼ÆÎÄ¼şµÄÓĞĞ§ĞĞÊı°üº¬·Ç¿Õ°××Ö·ûµÄĞĞ£©
-	 * ÊäÈë£ºÎÄ¼şÂ·¾¶
-	 * Êä³öÎÄ¼şµÄÓĞĞ§ĞĞÊı£¨°üº¬·Ç¿Õ°××Ö·ûµÄĞĞ£©
+	 * ç»Ÿè®¡æ–‡ä»¶çš„æœ‰æ•ˆè¡Œæ•°åŒ…å«éç©ºç™½å­—ç¬¦çš„è¡Œï¼‰ è¾“å…¥ï¼šæ–‡ä»¶è·¯å¾„ è¾“å‡ºæ–‡ä»¶çš„æœ‰æ•ˆè¡Œæ•°ï¼ˆåŒ…å«éç©ºç™½å­—ç¬¦çš„è¡Œï¼‰
 	 */
 	public static int count_Lines(String filePath) {
 		try {
-			File input_file=new File(filePath);
-			if(input_file.isFile() && input_file.exists())//ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ
-			{ 
+			File input_file = new File(filePath);
+			if (input_file.isFile() && input_file.exists())// åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+			{
 				InputStreamReader reader = new InputStreamReader(new FileInputStream(input_file));
 				BufferedReader bufferedReader = new BufferedReader(reader);
 				String str = null;
 				int countLinnes = 0;
-				while( (str = bufferedReader.readLine()) != null)
-				{
-					for(int i = 0 ; i < str.length() ; i++)
-					{
-						if( 32< str.charAt(i) && str.charAt(i) < 127 )
-						{
+				while ((str = bufferedReader.readLine()) != null) {
+					for (int i = 0; i < str.length(); i++) {
+						if (32 < str.charAt(i) && str.charAt(i) < 127) {
 							countLinnes++;
 							break;
 						}
@@ -102,161 +91,137 @@ public class wordCount {
 				}
 				reader.close();
 				return countLinnes;
-			} else{
-				System.out.println("ÕÒ²»µ½Ö¸¶¨µÄÎÄ¼ş");
+			} else {
+				System.out.println("æ‰¾ä¸åˆ°æŒ‡å®šçš„æ–‡ä»¶");
 				return -1;
 			}
 		} catch (IOException e) {
-			System.out.println("¶ÁÈ¡ÎÄ¼şÄÚÈİ³ö´í");
+			System.out.println("è¯»å–æ–‡ä»¶å†…å®¹å‡ºé”™");
 			e.printStackTrace();
 			return -1;
 		}
 	}
 
-	
 	/*
-	 * Í³¼ÆÎÄ¼şÖĞµÄµ¥´Ê×ÜÊı
-	 * ÊäÈë£ºÎÄ¼şÂ·¾¶
-	 * Êä³ö£ºÎÄ¼şÖĞµÄµ¥´Ê×ÜÊı
+	 * ç»Ÿè®¡æ–‡ä»¶ä¸­çš„å•è¯æ€»æ•° è¾“å…¥ï¼šæ–‡ä»¶è·¯å¾„ è¾“å‡ºï¼šæ–‡ä»¶ä¸­çš„å•è¯æ€»æ•°
 	 */
-	public static int get_Words_Num(String filePath)
-	{
-		Map< String, String> wordsMap = wordCount.count_Words(filePath);
-		int countWords = Integer.parseInt( wordsMap.get("count_words") );
+	public static int get_Words_Num(String filePath) {
+		Map<String, String> wordsMap = wordCount.count_Words(filePath);
+		int countWords = Integer.parseInt(wordsMap.get("count_words"));
 		return countWords;
 	}
-	
-	
+
 	/*
-	 * ´ÓÎÄ¼şÌáÈ¡µ¥´Ê²¢ÇÒÍ³¼Æµ¥´Ê³öÏÖ´ÎÊıºÍµ¥´Ê×ÜÊı
-	 * ÊäÈë£ºÎÄ¼şÂ·¾¶
-	 * Êä³ö£º°üº­µ¥´Ê×ÜÊıºÍ¸÷¸öµ¥´Ê³öÏÖ´ÎÊıµÄMap
+	 * ä»æ–‡ä»¶æå–å•è¯å¹¶ä¸”ç»Ÿè®¡å•è¯å‡ºç°æ¬¡æ•°å’Œå•è¯æ€»æ•° è¾“å…¥ï¼šæ–‡ä»¶è·¯å¾„ è¾“å‡ºï¼šåŒ…æ¶µå•è¯æ€»æ•°å’Œå„ä¸ªå•è¯å‡ºç°æ¬¡æ•°çš„Map
 	 */
 	public static Map<String, String> count_Words(String filePath) {
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("count_words", "0");
-		
+
 		try {
-			File input_file=new File(filePath);
-			if(input_file.isFile() && input_file.exists()){ //ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ
+			File input_file = new File(filePath);
+			if (input_file.isFile() && input_file.exists()) { // åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨
 				InputStreamReader reader = new InputStreamReader(new FileInputStream(input_file));
 				BufferedReader bufferedReader = new BufferedReader(reader);
 				String str = null;
-				
-				while( (str = bufferedReader.readLine()) != null)
-				{
+
+				while ((str = bufferedReader.readLine()) != null) {
 					str = str.toLowerCase();
-					for(int i = 0 ; i < (str.length()-4) ; i++)
-					{
-						if( i > 0 )
-						{
-							if( ('a'<= str.charAt(i-1) && str.charAt(i-1) <= 'z') || (48<=str.charAt(i-1)&&str.charAt(i-1)<=57) )
-							{//Èç¹ûÇ°Ò»¸ö×Ö·ûÊÇ×Ö·û»òÊı×Ö
+					for (int i = 0; i < (str.length() - 4); i++) {
+						if (i > 0) {
+							if (('a' <= str.charAt(i - 1) && str.charAt(i - 1) <= 'z')
+									|| (48 <= str.charAt(i - 1) && str.charAt(i - 1) <= 57)) {// å¦‚æœå‰ä¸€ä¸ªå­—ç¬¦æ˜¯å­—ç¬¦æˆ–æ•°å­—
 								continue;
 							}
 						}
-						if( 'a'<= str.charAt(i) && str.charAt(i) <= 'z' )
-						{
-							if( 'a'<= str.charAt(i+1) && str.charAt(i+1) <= 'z' )
-							{
-								if( 'a'<= str.charAt(i+2) && str.charAt(i+2) <= 'z' )
-								{
-									if( 'a'<= str.charAt(i+3) && str.charAt(i+3) <= 'z' )
-									{//ÕÒµ½µ¥´Ê
+						if ('a' <= str.charAt(i) && str.charAt(i) <= 'z') {
+							if ('a' <= str.charAt(i + 1) && str.charAt(i + 1) <= 'z') {
+								if ('a' <= str.charAt(i + 2) && str.charAt(i + 2) <= 'z') {
+									if ('a' <= str.charAt(i + 3) && str.charAt(i + 3) <= 'z') {// æ‰¾åˆ°å•è¯
 										int j;
-										for(j = i+4 ; j < str.length() ; j++)
-										{//¿´µ¥´ÊÊÇ·ñ½áÊø
-											if( 'a'> str.charAt(j) || str.charAt(j) > 'z' )
-											{
-												if(48>str.charAt(j)||str.charAt(j)>57)//²»ÊÇÊı×Ö
+										for (j = i + 4; j < str.length(); j++) {// çœ‹å•è¯æ˜¯å¦ç»“æŸ
+											if ('a' > str.charAt(j) || str.charAt(j) > 'z') {
+												if (48 > str.charAt(j) || str.charAt(j) > 57)// ä¸æ˜¯æ•°å­—
 													break;
 											}
 										}
-										String temp = str.substring(i,j);//½ØÈ¡×Ö·û´®Ë÷ÒıºÅiµ½jÇøÓò£¨°üÀ¨i£¬²»°üÀ¨j£©
-										//¼Óµ½Í¼ÀïÈ¥
-										if( map.containsKey(temp) )
-										{
-											int n = Integer.parseInt( map.get(temp) );
+										String temp = str.substring(i, j);// æˆªå–å­—ç¬¦ä¸²ç´¢å¼•å·iåˆ°jåŒºåŸŸï¼ˆåŒ…æ‹¬iï¼Œä¸åŒ…æ‹¬jï¼‰
+										// åŠ åˆ°å›¾é‡Œå»
+										if (map.containsKey(temp)) {
+											int n = Integer.parseInt(map.get(temp));
 											n++;
-											map.put(temp, n+"");
-										}
-										else 
-											map.put(temp,"1");
-										
-										int n = Integer.parseInt( map.get("count_words") );
-										n++;//×Üµ¥´Ê¸öÊı¼ÓÒ»
-										map.put("count_words", n+"");
-										
-										i=j;
-									}
-									else i = i+3;
-								}
-								else i = i+2;
-							}
-							else i = i+1;
+											map.put(temp, n + "");
+										} else
+											map.put(temp, "1");
+
+										int n = Integer.parseInt(map.get("count_words"));
+										n++;// æ€»å•è¯ä¸ªæ•°åŠ ä¸€
+										map.put("count_words", n + "");
+
+										i = j;
+									} else
+										i = i + 3;
+								} else
+									i = i + 2;
+							} else
+								i = i + 1;
 						}
-						
+
 					}
 				}
 				reader.close();
 				return map;
-					
-			} else{
-           	 System.out.println("ÕÒ²»µ½Ö¸¶¨µÄÎÄ¼ş");
-           	 return null;
-            }
+
+			} else {
+				System.out.println("æ‰¾ä¸åˆ°æŒ‡å®šçš„æ–‡ä»¶");
+				return null;
+			}
 		} catch (IOException e) {
-			System.out.println("¶ÁÈ¡ÎÄ¼şÄÚÈİ³ö´í");
+			System.out.println("è¯»å–æ–‡ä»¶å†…å®¹å‡ºé”™");
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	/*
-	 * Í³¼ÆÎÄ¼ş×ÜµÄ×Ö·ûÊı
-	 * ÊäÈë£ºÎÄ¼şÂ·¾¶
-	 * Êä³ö£ºÎÄ¼şµÄ×Ö·ûÊı£¨°üÀ¨¿Õ°××Ö·û£©
+	 * ç»Ÿè®¡æ–‡ä»¶æ€»çš„å­—ç¬¦æ•° è¾“å…¥ï¼šæ–‡ä»¶è·¯å¾„ è¾“å‡ºï¼šæ–‡ä»¶çš„å­—ç¬¦æ•°ï¼ˆåŒ…æ‹¬ç©ºç™½å­—ç¬¦ï¼‰
 	 */
-	public static int count_Characters(String filePath){
-        try {
-                File input_file=new File(filePath);
-                File output_file=new File("result.txt");
-                if(input_file.isFile() && input_file.exists()){ //ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ
-                    InputStreamReader reader = new InputStreamReader(new FileInputStream(input_file));
-                    OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(output_file));
-                    int countChar = 0;
-                    int temp;
-                    int last_char=-1;
-                    int n=0;
-                    while((temp = reader.read() )!= -1){
-                    	countChar++;
-                    	n++;
-                    	if(last_char=='\r'||temp=='\n')
-                    	{
-                    		n=0;
-                    		countChar--;
-                    	}
+	public static int count_Characters(String filePath) {
+		try {
+			File input_file = new File(filePath);
+			File output_file = new File("result.txt");
+			if (input_file.isFile() && input_file.exists()) { // åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+				InputStreamReader reader = new InputStreamReader(new FileInputStream(input_file));
+				OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(output_file));
+				int countChar = 0;
+				int temp;
+				int last_char = -1;
+				int n = 0;
+				while ((temp = reader.read()) != -1) {
+					countChar++;
+					n++;
+					if (last_char == '\r' || temp == '\n') {
+						n = 0;
+						countChar--;
+					}
 //                    	System.out.print((char) temp);
-                    	last_char=temp;
-                    }
-                    
-                    reader.close();
-                    writer.close();
-                    return countChar;
-                 }
-                 else{
-                	 System.out.println("ÕÒ²»µ½Ö¸¶¨µÄÎÄ¼ş");
-                	 return -1;
-                 }
-        } catch (Exception e) {
-            System.out.println("¶ÁÈ¡ÎÄ¼şÄÚÈİ³ö´í");
-            e.printStackTrace();
-            return -1;
-        }
-     
-    }
+					last_char = temp;
+				}
 
+				reader.close();
+				writer.close();
+				return countChar;
+			} else {
+				System.out.println("æ‰¾ä¸åˆ°æŒ‡å®šçš„æ–‡ä»¶");
+				return -1;
+			}
+		} catch (Exception e) {
+			System.out.println("è¯»å–æ–‡ä»¶å†…å®¹å‡ºé”™");
+			e.printStackTrace();
+			return -1;
+		}
 
+	}
 
 }
