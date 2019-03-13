@@ -207,12 +207,9 @@ public class wordCount {
 				int countChar = 0;
 				int temp;
 				int last_char = -1;
-				int n = 0;
 				while ((temp = reader.read()) != -1) {
 					countChar++;
-					n++;
-					if (last_char == '\r' || temp == '\n') {
-						n = 0;
+					if (last_char == '\r' && temp == '\n') {
 						countChar--;
 					}
 //                    	System.out.print((char) temp);
