@@ -136,7 +136,7 @@ public class wordCount {
 
 				while ((str = bufferedReader.readLine()) != null) {
 					str = str.toLowerCase();
-					for (int i = 0; i < (str.length() - 4); i++) {
+					for (int i = 0; i < (str.length() - 3); i++) {
 						if (i > 0) {
 							if (('a' <= str.charAt(i - 1) && str.charAt(i - 1) <= 'z')
 									|| (48 <= str.charAt(i - 1) && str.charAt(i - 1) <= 57)) {// 如果前一个字符是字符或数字
