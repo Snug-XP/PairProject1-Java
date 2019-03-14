@@ -14,7 +14,9 @@ import java.util.Map;
 public class wordCount {
 
 	/*
-	 * 将统计结果输出到文件"result.txt" 输入：统计的文件字符总数、统计单词和词频的Map、统计的文件有效行数 输出：无
+	 * 将统计结果输出到文件"result.txt" 
+	 *输入：统计的文件字符总数、统计单词和词频的Map、统计的文件有效行数 
+	 *输出：无
 	 */
 	public static void writeToFile(int countChar, Map<String, String> wordsMap, int countLinnes) {
 		try {
@@ -70,7 +72,9 @@ public class wordCount {
 	}
 
 	/*
-	 * 统计文件的有效行数包含非空白字符的行） 输入：文件路径 输出文件的有效行数（包含非空白字符的行）
+	 * 统计文件的有效行数包含非空白字符的行） 
+	 *输入：文件路径 
+	 *输出：文件的有效行数（包含非空白字符的行）
 	 */
 	public static int count_Lines(String filePath) {
 		try {
@@ -103,7 +107,9 @@ public class wordCount {
 	}
 
 	/*
-	 * 统计文件中的单词总数 输入：文件路径 输出：文件中的单词总数
+	 * 统计文件中的单词总数 
+	 *输入：文件路径 
+	 *输出：文件中的单词总数
 	 */
 	public static int get_Words_Num(String filePath) {
 		Map<String, String> wordsMap = wordCount.count_Words(filePath);
@@ -112,7 +118,9 @@ public class wordCount {
 	}
 
 	/*
-	 * 从文件提取单词并且统计单词出现次数和单词总数 输入：文件路径 输出：包涵单词总数和各个单词出现次数的Map
+	 * 从文件提取单词并且统计单词出现次数和单词总数 
+	 *输入：文件路径 
+	 *输出：包涵单词总数和各个单词出现次数的Map
 	 */
 	public static Map<String, String> count_Words(String filePath) {
 
@@ -128,7 +136,7 @@ public class wordCount {
 
 				while ((str = bufferedReader.readLine()) != null) {
 					str = str.toLowerCase();
-					for (int i = 0; i < (str.length() - 4); i++) {
+					for (int i = 0; i < (str.length() - 3); i++) {
 						if (i > 0) {
 							if (('a' <= str.charAt(i - 1) && str.charAt(i - 1) <= 'z')
 									|| (48 <= str.charAt(i - 1) && str.charAt(i - 1) <= 57)) {// 如果前一个字符是字符或数字
@@ -185,7 +193,9 @@ public class wordCount {
 	}
 
 	/*
-	 * 统计文件总的字符数 输入：文件路径 输出：文件的字符数（包括空白字符）
+	 * 统计文件总的字符数 
+	 *输入：文件路径 
+	 *输出：文件的字符数（包括空白字符）
 	 */
 	public static int count_Characters(String filePath) {
 		try {
@@ -197,12 +207,9 @@ public class wordCount {
 				int countChar = 0;
 				int temp;
 				int last_char = -1;
-				int n = 0;
 				while ((temp = reader.read()) != -1) {
 					countChar++;
-					n++;
-					if (last_char == '\r' || temp == '\n') {
-						n = 0;
+					if (last_char == '\r' && temp == '\n') {
 						countChar--;
 					}
 //                    	System.out.print((char) temp);
